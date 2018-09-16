@@ -15,7 +15,7 @@ Goal: estimate f as well as the marginal density of X
 # Required packages
 fields; mvtnorm; matrixStats; stats; FSA; ggplot2
 
-# exmaple result 
+# Output 
 ![szh0u\Gaussian-Process-with-Errors-in-Variables](GPEV_example.png)
 
 red line - true; black line - GPEV estimation; light shade - 95% pointwise credible intervals. 
