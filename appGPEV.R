@@ -1,7 +1,6 @@
-appGPEV <-
-  function(train_data,test_data,delta,J,L,theta) { 
+appGPEV <- function(train_data,test_data,delta,J,L,theta) { 
     
-    #################################
+    ######### INPUT VIRAVLES #######################
     # train_data: 4*n matrix with rows (true covariates; contaminated covariates; y; y with random errors).
     # test_data: test covariate, test y.
     # delta: measurement error variance
@@ -10,7 +9,23 @@ appGPEV <-
     # theta: hyperparameters, theta = c(theta_1, theta_2, theta_3).
     #        theta_1 = a0, theta_2 = b0, where \lambda ~ Gamma(a0,b0);
     #        theta_3 = lambda0 initial value of \lambda
-    ##################################
+    ################################################
+    
+    ############# OUTCOME VALUES ###################
+    # ypost: estimation on estimated covariates 
+    # ytrue: estimation on the true covariates 
+    # ypred: out of smaple estimation 
+    # mse.train: training mean squared error 
+    # MSE: out of sample mean squared error 
+    # sCI_test: 95% simultaneous credible interval 
+    # pCI_test: 95% pointwise credible interval
+    # minutes: running time 
+    ################################################
+    
+    
+    
+    
+    
     
     print("method = appGPEV")
     ## start the time 
@@ -213,7 +228,7 @@ appGPEV <-
   
     result=list(list())
     
-    result=list(ypost, ytrue, ypred, mse.train, MSE, sCI_test, pCI_test, minutes, mcmc_w,mcmc_u,mcmc_a,mcmc_x)
+    result=list(ypost, ytrue, ypred, mse.train, MSE, sCI_test, pCI_test, minutes)
     
     
     return(result)
