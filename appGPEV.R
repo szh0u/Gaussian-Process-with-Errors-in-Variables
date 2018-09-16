@@ -1,6 +1,17 @@
 appGPEV <-
   function(train_data,test_data,delta,J,L,theta) { 
     
+    #################################
+    # train_data: 4*n matrix with rows (true covariates; contaminated covariates; y; y with random errors).
+    # test_data: test covariate, test y.
+    # delta: measurement error variance
+    # J: truncation parameter. 
+    # L: number of mcmc iteration.
+    # theta: hyperparameters, theta = c(theta_1, theta_2, theta_3).
+    #        theta_1 = a0, theta_2 = b0, where \lambda ~ Gamma(a0,b0);
+    #        theta_3 = lambda0 initial value of \lambda
+    ##################################
+    
     print("method = appGPEV")
     ## start the time 
     ptm <- proc.time()   
@@ -10,24 +21,19 @@ appGPEV <-
     
     loglik.fun=function(w,x,u,a) sum(dnorm(z,sqrt(2)*colSums(a*cos(outer(w,x)+u))/sqrt(J),sd=sigma,log=TRUE))
     
+
     
-    # mu0=theta[1]
-    # alpha0=theta[2]
-    # ka0=theta[3] 
-    # atau=theta[4]  # hyperparameter of \tau 
-    # btau=theta[5]  # hyperparameter of \tau
-    
-    mu0=0
-    alpha0=1
-    ka0=1 
-    atau=1  # hyperparameter of \tau 
-    btau=1  # hyperparameter of \tau
+    mu0=0     # hyperparameter for \mu
+    alpha0=1  # hyperparameter for \alpha
+    ka0=1     # hyperparameter for \kappa
+    atau=1    # hyperparameter of \tau 
+    btau=1    # hyperparameter of \tau
     
     a0=theta[1]
     b0=theta[2] # lambda \sim gamma(a0,b0)
-    lambda0=theta[3]
+    lambda0=theta[3] # initial value 
     K=25
-    s=theta[4]
+   
     
     n=ncol(train_data)
     locs=as.numeric(train_data[1,])
@@ -69,7 +75,7 @@ appGPEV <-
     for(l in 2:L) { # l=2
      #cat("iter=", l, "\n")
       for(j in 1:J) { # j=1
-        w.prop=w.cur; w.prop[j]=1.5*abs(rnorm(1,0,sd=8*sqrt(1/lambda[l-1]))/s)
+        w.prop=w.cur; w.prop[j]=1.5*abs(rnorm(1,0,sd=8*sqrt(1/lambda[l-1])))
         loglik.prop=loglik.fun(w.prop,x.cur,u.cur,a.cur)
         if(loglik.prop-loglik.cur>log(runif(1))){
           w.cur=w.prop; loglik.cur=loglik.prop 
