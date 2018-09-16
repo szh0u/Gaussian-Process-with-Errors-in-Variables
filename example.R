@@ -36,7 +36,10 @@ test_data = rbind(xtest,ytest)
 
 ## Running GPEV method 
 r = appGPEV(train_data, test_data, delta, J, niter, theta = c(5,1,10))
+
+# out of sample prediction on test grid
 ypred = r[[3]]
+# out of sample 95% point-wise credible intervals
 CIpred = r[[7]]
 
 data = data.frame(xtest, ypred)
@@ -45,7 +48,7 @@ p <- ggplot(data, aes(x=xtest, y=ytest), col = variable)+
      geom_line(aes(x=xtest, y=ypred), colour="black")+
      geom_ribbon(aes(ymin=CIpred[1,], ymax=CIpred[2,]), alpha=0.2)
 
-plabs<- p+labs(x = "x", y = "f(x)", title = "red-true; black-GPEV")
+plabs<- p+labs(x = "x", y = "f(x)")
 plabs + theme( 
   axis.title.x = element_text(size=8, face="bold"),
   axis.title.y = element_text(size=8, face="bold"),
